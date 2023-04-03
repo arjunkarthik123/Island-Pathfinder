@@ -1,34 +1,28 @@
 package ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT;
 
-import java.awt.*;
+import java.util.Comparator;
 
-public class Node {
-    private int elevation;
+public class Node implements Comparator<Node> {
     private int index;
     private String name;
+    private int weight;
 
-    private Point centroid;
-
-    public Node (int elevation, int index, String name, Point vertex){
-        this.elevation = elevation;
+    public Node (int index, String name) {
         this.index = index;
         this.name = name;
-        this.centroid = vertex;
+    }
+
+    public Node (int index, String name, int weight){
+        this.index = index;
+        this.name = name;
+        this.weight = weight;
     }
     //All getters
     public int getIndex () {
         return this.index;
     }
-    public int getElevation () {
-        return this.elevation;
-    }
-
     public String getName() {
         return this.name;
-    }
-
-    public Point getCentroid() {
-        return centroid;
     }
 
     //All setters
@@ -36,15 +30,12 @@ public class Node {
         this.index = index;
     }
 
-    public void setElevation(int elevation) {
-        this.elevation = elevation;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setCentroid(Point centroid) {
-        this.centroid = centroid;
+    @Override public int compare(Node n1, Node n2)
+    {
+        return Integer.compare(n1.weight, n2.weight);
     }
 }

@@ -4,10 +4,10 @@ public class Edge {
 
     Node n1;
     Node n2;
-    int weight;
-    public Edge (Node node1, Node node2, int weight){
+    int distanceTwoNodes;
+    public Edge (Node node1, Node node2, int distanceTwoNodes){
         this.n1 = node1;
         this.n2 = node2;
-        this.weight = weight;
+        this.distanceTwoNodes = distanceTwoNodes;
     }
 }
