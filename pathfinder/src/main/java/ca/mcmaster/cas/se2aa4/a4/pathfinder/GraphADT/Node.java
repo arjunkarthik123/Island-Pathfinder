@@ -25,6 +25,10 @@ public class Node implements Comparator<Node> {
         return this.name;
     }
 
+    public int getWeight() {
+        return weight;
+    }
+
     //All setters
     public void setIndex(int index){
         this.index = index;
@@ -32,6 +36,10 @@ public class Node implements Comparator<Node> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     @Override public int compare(Node n1, Node n2)
