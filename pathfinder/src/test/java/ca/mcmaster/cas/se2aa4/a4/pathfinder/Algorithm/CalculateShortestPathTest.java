@@ -5,75 +5,66 @@ import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Graph;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Node;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculateShortestPathTest {
 
-    @Test
-    void calculateNeighbours() {
-    }
-
-    @Test
-    void testShortestPath() {
-        int numNodes = 5;
+    private int [] distances;
+    Map<Integer, List<Integer>> shortestPaths = new HashMap<>();
+    void setUpValues() {
         int source = 0;
-        List<List<Node>> adjacentNodes = new ArrayList<>();
-        for (int i = 0; i<numNodes; i++){
-            List<Node> x = new ArrayList<>();
-            adjacentNodes.add(x);
-        }
 
-        ArrayList<Node> nodes = new ArrayList<>();
-        ArrayList<Edge> edges = new ArrayList<>();
+        Node n0 = new Node(0,0);
+        Node n1 = new Node (1, Integer.MAX_VALUE);
+        Node n2 = new Node (2, Integer.MAX_VALUE);
+        Node n3 = new Node (3, Integer.MAX_VALUE);
+        Node n4 = new Node (4, Integer.MAX_VALUE);
 
-        Node n1 = new Node(1,1);
+        List <Node> nodes = new ArrayList<>();
+        nodes.add(n0);
         nodes.add(n1);
-        Node n2 = new Node(2,7);
         nodes.add(n2);
-        Node n3 = new Node(3,12);
         nodes.add(n3);
-        Node n4 = new Node(4,33);
         nodes.add(n4);
-        Node n5 = new Node(1,21);
-        nodes.add(n5);
-        Node n6 = new Node(3,8);
-        nodes.add(n6);
 
+        Edge edge01 = new Edge(0, 1, 5);
+        Edge edge02 = new Edge(0, 2, 3);
+        Edge edge13 = new Edge(1, 3, 6);
+        Edge edge23 = new Edge(2, 3, 2);
+        Edge edge34 = new Edge(3, 4, 4);
+        Edge edge04 = new Edge (0, 4, 1);
 
-        adjacentNodes.get(0).add(n1);
-        adjacentNodes.get(0).add(n2);
-        adjacentNodes.get(0).add(n3);
-        adjacentNodes.get(0).add(n4);
+        List <Edge> edges = new ArrayList<>();
+        edges.add(edge01);
+        edges.add(edge02);
+        edges.add(edge13);
+        edges.add(edge23);
+        edges.add(edge34);
+        edges.add(edge04);
 
-        adjacentNodes.get(2).add(n5);
-        adjacentNodes.get(2).add(n6);
-
-
-
-        Graph g = new Graph(nodes, edges);
-        CalculateShortestPath c = new CalculateShortestPath(g);
-        List<List<Integer>> shortestPath;
-        shortestPath = c.calculatePath(adjacentNodes, source);
-
-        System.out.println("The shorted path from node 0:");
-
-        for (int i = 0; i < c.getDistance().length-1; i++)
-            System.out.println(source + " to " + i + " is "+ c.getDistance()[i]);
-
-        System.out.println("Now printing all nodes in each of the shortest paths from 0");
-        for (int i = 0; i<shortestPath.size(); i++){
-            for (int j = 0; j<shortestPath.get(i).size();j++){
-                System.out.print(shortestPath.get(i).get(j)+", ");
-            }
-            System.out.println(" ");
-        }
-        System.out.println("size of shortest path: "+shortestPath.size());
-        System.out.println("number of nodes: "+nodes.size());
+        Graph graph = new Graph(nodes, edges);
+        CalculateShortestPath c = new CalculateShortestPath(graph);
+        shortestPaths = c.calculatePath(graph, source);
+        distances = c.getDistance();
     }
+    @Test
+    void testShortestPaths() {
+        setUpValues();
+        assertNotNull(shortestPaths);
+    }
+    @Test
+    void testDistancesFilled () {
+        setUpValues();
+        assertNotNull(distances);
+    }
+    @Test
+    void checkIfDistancesAreCorrect(){
+        setUpValues();
+        assertEquals(5, distances[1]);
+        assertEquals(1, distances[4]);
+    }
+
 }
 
