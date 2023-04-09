@@ -3,9 +3,10 @@ package ca.mcmaster.cas.se2aa4.a4.pathfinder.Algorithm;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Node;
 
 import java.util.List;
+import java.util.Set;
 
 public interface FindPath {
 
-    void calculatePath(List<List<Node>> adjacent, int source, String name);
+    List<List<Integer>> calculatePath(List<List<Node>> adjacent, int source);
     void calculateNeighbours (int n);
 }

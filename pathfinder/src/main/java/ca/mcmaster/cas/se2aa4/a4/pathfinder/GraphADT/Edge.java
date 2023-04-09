@@ -14,8 +14,4 @@ public class Edge {
     public int getDistanceTwoNodes() {
         return distanceTwoNodes;
     }
-
-    public void setDistanceTwoNodes(int distanceTwoNodes) {
-        this.distanceTwoNodes = distanceTwoNodes;
-    }
 }

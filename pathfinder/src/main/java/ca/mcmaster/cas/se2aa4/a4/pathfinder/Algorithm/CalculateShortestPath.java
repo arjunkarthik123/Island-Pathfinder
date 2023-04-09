@@ -8,60 +8,76 @@ import java.util.*;
 public class CalculateShortestPath implements FindPath{
 
     private final int[] distance;
-    private final Set<Integer> settledNodes = new HashSet<>();
+    private final List<Integer> settledNodes;
     private final PriorityQueue<Node> priorityQueue;
-    private final int vertex;
 
-    Graph graph;
-    List<List<Node>> adjacentNodes;
+    private final List<List<Integer>> shortestPaths;
+    private final List <Integer> singlePath;
+    private final int numNodes;
+    private List<List<Node>> adjacentNodes;
 
-    public CalculateShortestPath(int[] distance, PriorityQueue<Node> priorityQueue, int vertex, Graph graph) {
-        this.distance = distance;
-        this.priorityQueue = priorityQueue;
-        this.vertex = vertex;
-        this.graph = graph;
+    public CalculateShortestPath(Graph graph) {
+        numNodes = graph.getNodeList().size();
+        distance = new int[numNodes];
+        settledNodes = new ArrayList<>();
+        priorityQueue = new PriorityQueue<>(numNodes, new Node());
+        shortestPaths = new ArrayList<>();
+        singlePath = new ArrayList<>();
+    }
+
+    public int[] getDistance() {
+        return distance;
     }
 
     @Override
-    public void calculateNeighbours(int test) {
+    public void calculateNeighbours(int min) {
         int edgeDist;
         int newDist;
 
-        for (int i = 0; i<adjacentNodes.get(test).size(); i++){
-            Node n = adjacentNodes.get(test).get(i);
+        for (int i = 0; i<adjacentNodes.get(min).size(); i++){
+            Node n = adjacentNodes.get(min).get(i);
 
             if (!settledNodes.contains(n.getIndex())){
                 edgeDist = n.getWeight();
-                newDist = distance[test] + edgeDist;
+                newDist = distance[min] + edgeDist;
 
                 if (newDist < distance[n.getIndex()]) {
                     distance[n.getIndex()] = newDist;
+
                 }
+
                 priorityQueue.add(new Node(n.getIndex(), distance[n.getIndex()]));
+
             }
         }
     }
     @Override
-    public void calculatePath(List<List<Node> > adjacentNodes, int source, String sourceName) {
+    public List<List<Integer>> calculatePath(List <List<Node>> adjacentNodes, int source) {
         this.adjacentNodes = adjacentNodes;
-        for (int i = 0; i<vertex; i++){
+        for (int i = 0; i< numNodes; i++){
             distance[i] = Integer.MAX_VALUE;
         }
 
-        Node src = new Node(source, sourceName, 0);
+        Node src = new Node(source, 0);
         priorityQueue.add(src);
         distance[source] = 0;
 
-        while (settledNodes.size() != vertex){
+        while (settledNodes.size() != numNodes){
+            singlePath.clear();
+            singlePath.add(source);
             if (priorityQueue.isEmpty()){
-                return;
+                return shortestPaths;
             }
             int min = priorityQueue.remove().getIndex();
+            singlePath.add(min);
+
             if (settledNodes.contains(min)){
                 continue;
             }
             settledNodes.add(min);
             calculateNeighbours(min);
+            shortestPaths.add(singlePath);
         }
+        return shortestPaths;
     }
 }

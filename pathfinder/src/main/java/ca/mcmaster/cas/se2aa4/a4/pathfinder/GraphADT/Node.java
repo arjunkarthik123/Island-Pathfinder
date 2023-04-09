@@ -7,6 +7,7 @@ public class Node implements Comparator<Node> {
     private String name;
     private int weight;
 
+    public Node () {}
     public Node (int index, int weight) {
         this.index = index;
         this.weight = weight;
