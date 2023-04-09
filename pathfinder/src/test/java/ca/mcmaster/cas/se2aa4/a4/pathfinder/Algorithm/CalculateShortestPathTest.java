@@ -3,6 +3,7 @@ package ca.mcmaster.cas.se2aa4.a4.pathfinder.Algorithm;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Edge;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Graph;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Node;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -11,9 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CalculateShortestPathTest {
 
-    private int [] distances;
-    Map<Integer, List<Integer>> shortestPaths = new HashMap<>();
-    void setUpValues() {
+    static private int [] distances;
+    static Map<Integer, List<Integer>> shortestPaths = new HashMap<>();
+    @BeforeAll
+    static void setUpValues() {
         int source = 0;
 
         Node n0 = new Node(0,0);
@@ -46,22 +48,19 @@ class CalculateShortestPathTest {
 
         Graph graph = new Graph(nodes, edges);
         CalculateShortestPath c = new CalculateShortestPath(graph);
-        shortestPaths = c.calculatePath(graph, source);
+        shortestPaths = c.calculatePath(source);
         distances = c.getDistance();
     }
     @Test
     void testShortestPaths() {
-        setUpValues();
         assertNotNull(shortestPaths);
     }
     @Test
     void testDistancesFilled () {
-        setUpValues();
         assertNotNull(distances);
     }
     @Test
     void checkIfDistancesAreCorrect(){
-        setUpValues();
         assertEquals(5, distances[1]);
         assertEquals(1, distances[4]);
     }

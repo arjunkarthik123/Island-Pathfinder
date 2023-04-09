@@ -7,13 +7,14 @@ import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Node;
 import java.util.*;
 
 public class CalculateShortestPath implements FindPath {
-
     private final int[] distance;
     private final PriorityQueue<Node> priorityQueue;
-
     private final Map<Integer, List<Integer>> shortestPaths;
     private final int numNodes;
+
+    private final Graph graph;
     public CalculateShortestPath(Graph graph) {
+        this.graph = graph;
         numNodes = graph.getNodeList().size();
         distance = new int[numNodes];
         priorityQueue = new PriorityQueue<>(numNodes, new Node());
@@ -24,7 +25,7 @@ public class CalculateShortestPath implements FindPath {
     }
 
     @Override
-    public Map<Integer, List<Integer>> calculatePath(Graph graph, int source) {
+    public Map<Integer, List<Integer>> calculatePath(int source) {
         Arrays.fill(distance, Integer.MAX_VALUE);
         distance[source] = 0;
 
