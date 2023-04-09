@@ -1,16 +1,26 @@
 package ca.mcmaster.cas.se2aa4.a4.pathfinder.Algorithm;
 
+import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Graph;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Node;
 
 import java.util.*;
 
 public class CalculateShortestPath implements FindPath{
 
-    private int distance[];
-    private Set<Integer> settledNodes = new HashSet<>();
-    private PriorityQueue<Node> priorityQueue;
-    private int vertex;
+    private final int[] distance;
+    private final Set<Integer> settledNodes = new HashSet<>();
+    private final PriorityQueue<Node> priorityQueue;
+    private final int vertex;
+
+    Graph graph;
     List<List<Node>> adjacentNodes;
+
+    public CalculateShortestPath(int[] distance, PriorityQueue<Node> priorityQueue, int vertex, Graph graph) {
+        this.distance = distance;
+        this.priorityQueue = priorityQueue;
+        this.vertex = vertex;
+        this.graph = graph;
+    }
 
     @Override
     public void calculateNeighbours(int test) {
@@ -27,7 +37,7 @@ public class CalculateShortestPath implements FindPath{
                 if (newDist < distance[n.getIndex()]) {
                     distance[n.getIndex()] = newDist;
                 }
-                priorityQueue.add(new Node(n.getIndex(), "lol", distance[n.getIndex()]));
+                priorityQueue.add(new Node(n.getIndex(), distance[n.getIndex()]));
             }
         }
     }

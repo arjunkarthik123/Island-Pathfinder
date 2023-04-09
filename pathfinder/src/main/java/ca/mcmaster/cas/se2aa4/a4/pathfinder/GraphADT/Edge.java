@@ -10,4 +10,12 @@ public class Edge {
         this.n2 = node2;
         this.distanceTwoNodes = distanceTwoNodes;
     }
+
+    public int getDistanceTwoNodes() {
+        return distanceTwoNodes;
+    }
+
+    public void setDistanceTwoNodes(int distanceTwoNodes) {
+        this.distanceTwoNodes = distanceTwoNodes;
+    }
 }
