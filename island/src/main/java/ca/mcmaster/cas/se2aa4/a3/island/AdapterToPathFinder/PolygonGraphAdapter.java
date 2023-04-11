@@ -19,7 +19,7 @@ public class PolygonGraphAdapter {
     private MyPolygon polygon;
     private Graph graph;
     private Map<MyVertex, Integer> nodeMapping;
-    private List<MyPolygon> polygons;
+    private final List<MyPolygon> polygons;
     private List<Point> centroids;
     private List <Node> nodeList;
     private List<Edge> edgeList;
@@ -30,8 +30,7 @@ public class PolygonGraphAdapter {
     private int calcDistance(Point p1, Point p2){
         double d1 = Math.pow((p1.getX() - p2.getX()), 2);
         double d2 = Math.pow(p1.getY() - p2.getY(), 2);
-        int distance = (int) Math.pow((d1 + d2), 0.5);
-        return distance;
+        return (int) Math.pow((d1 + d2), 0.5);
     }
     private void getAllCentroids(){
         for (MyPolygon myPolygon : polygons) {

@@ -20,7 +20,7 @@ public class InputHandler {
 
     // Makes a regular island.
     public Mesh makeMesh(Mesh aMesh, String elevation, long seed, int numAquifers, String soil, int numLakes,
-                         int numRivers, String biome){
+                         int numRivers, String biome, int cities){
         IslandCreator islandCreator = new IslandCreator();
         MeshBuilder builder = getBuilder();
         Random rand = getRandom(seed);
@@ -31,11 +31,11 @@ public class InputHandler {
             SoilProfile soilProfile = getSoilProfile(soil);
             WhittakerDiagram whittakerDiagram = getWhittakerBiome(biome);
             return islandCreator.createIsland((IslandBuilder) builder, aMesh, elevationProfile, rand, numAquifers,
-                    soilProfile, numLakes, numRivers, whittakerDiagram);
+                    soilProfile, numLakes, numRivers, whittakerDiagram, cities);
         }
 
         // Returns the lagoon if just using a lagoon builder.
-        return islandCreator.createIsland(builder, aMesh, rand, numAquifers, numLakes, numRivers);
+        return islandCreator.createIsland(builder, aMesh, rand, numAquifers, numLakes, numRivers, cities);
     }
 
     private IslandShape getIslandShape(){
@@ -80,7 +80,7 @@ public class InputHandler {
 
     // Makes an island with a heatmap, unless making a lagoon.
     public Mesh makeMesh(Mesh aMesh, String heatmap, String elevation, long seed, int numAquifers, String soil,
-                         int numLakes, int numRivers){
+                         int numLakes, int numRivers, int cities){
         IslandCreator islandCreator = new IslandCreator();
         MeshBuilder builder = getBuilder();
         Random rand = getRandom(seed);
@@ -91,11 +91,11 @@ public class InputHandler {
             SoilProfile soilProfile = getSoilProfile(soil);
             HeatmapPainter heatmapPainter = getHeatmapPainter(heatmap);
             return islandCreator.createIsland((IslandBuilder) builder, aMesh, elevationProfile, heatmapPainter, rand,
-                    numAquifers, soilProfile, numLakes, numRivers);
+                    numAquifers, soilProfile, numLakes, numRivers, cities);
         }
 
         // Returns the lagoon if just using a lagoon builder.
-        return islandCreator.createIsland(builder, aMesh, rand, numAquifers, numLakes, numRivers);
+        return islandCreator.createIsland(builder, aMesh, rand, numAquifers, numLakes, numRivers, cities);
     }
 
     private Random getRandom (long seed) {
