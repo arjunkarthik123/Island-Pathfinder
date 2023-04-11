@@ -61,7 +61,7 @@ public class IslandBuilder extends AbstractBuilder {
         moistureAdder.addMoistureToPolygons(findPolygonsWithinIsland(), soilProfile, mySegments);
     }
 
-    private List<MyPolygon> findPolygonsWithinIsland(){
+    public List<MyPolygon> findPolygonsWithinIsland(){
         Geometry island = islandShape.getShape();
         List<MyPolygon> withinIsland = new ArrayList<>();
         for (MyPolygon p : myPolygons){
