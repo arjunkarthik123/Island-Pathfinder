@@ -37,7 +37,7 @@ public class IslandBuilder extends AbstractBuilder {
     }
 
     @Override
-    public void buildIsland(Mesh aMesh, Random rand, int numAquifers, int numLakes, int numRivers){
+    public void buildIsland(Mesh aMesh, Random rand, int numAquifers, int numLakes, int numRivers, int cities){
 
         extractFromMesh(aMesh);
 
