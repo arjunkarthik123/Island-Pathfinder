@@ -22,12 +22,16 @@ public class CityBuilder extends PolygonGraphAdapter {
     private final List<Node> cityNodeList = new ArrayList<>();
     Map<Integer, MyVertex> newVertices = new HashMap<>();
 
+    private final List<Integer> nodesRelevantToShortestPath = new ArrayList<>();
+
     public CityBuilder(List<MyPolygon> polygons, Random rand, int cities, List<MyVertex> vertices, List<MySegment> segments) {
         super(polygons, rand, vertices, segments);
         this.cities = cities;
         executeAdapter();
         makeCities();
+        colorCities();
         shortestPaths = generateShortestPaths();
+        //changeCapitolCityColor();
         generateNewVerticesFromNodeCentroids();
         generateSegmentsFromVertices();
     }
@@ -48,6 +52,23 @@ public class CityBuilder extends PolygonGraphAdapter {
                 indexList.add(nodeIndex);
                 determineCities.replace(nodeIndex, true);
                 k++;
+            }
+        }
+    }
+
+    private void colorCities() {
+        String colorCode = "255,255,0";
+        System.out.println(centroids.size());
+        System.out.println(determineCities.size());
+
+        for (int i = 0; i < determineCities.size(); i++) {
+            if (determineCities.get(i)) {
+                Point toChange = centroids.get(i);
+                for (int j = 0; j < vertices.size(); j++) {
+                    if (toChange.getX() == vertices.get(j).getX() && toChange.getY() == vertices.get(j).getY()) {
+                        vertices.get(j).changeColor(colorCode);
+                    }
+                }
             }
         }
     }
@@ -102,6 +123,16 @@ public class CityBuilder extends PolygonGraphAdapter {
         }
         nodeList.get(mostCentralIndex).setWeight(0);
         mostCentralNode = nodeList.get(mostCentralIndex);
+
+        String colorCode = "255,0,0";
+        Point toChange = centroids.get(mostCentralIndex);
+        for (int j = 0; j < vertices.size(); j++) {
+            if (toChange.getX() == vertices.get(j).getX() && toChange.getY() == vertices.get(j).getY()) {
+                vertices.get(j).changeColor(colorCode);
+                break;
+            }
+        }
+
     }
 
     @Override
@@ -109,7 +140,7 @@ public class CityBuilder extends PolygonGraphAdapter {
         for (int i = 0; i < polygons.size(); i++) {
             for (int j = 0; j < polygons.size(); j++) {
                 if (j != i) {
-                    if (cityNodeList.contains(nodeList.get(i)) && cityNodeList.contains(nodeList.get(j))) {
+                    if (polygons.get(i).isNeighbour(polygons.get(j))) {
                         edgeList.add(new Edge(i, j, calcDistance(centroids.get(i), centroids.get(j))));
                     }
                 }
@@ -146,6 +177,7 @@ public class CityBuilder extends PolygonGraphAdapter {
                 }
                 if (path.size() > 0) {
                     System.out.print("Shortest path from source node to node " + j + ": ");
+                    nodesRelevantToShortestPath.add(j);
                     System.out.print(path.get(0));
                     for (int k = 1; k < path.size(); k++) {
                         System.out.print(" -> " + path.get(k));
@@ -158,6 +190,7 @@ public class CityBuilder extends PolygonGraphAdapter {
     }
 
     private void generateNewVerticesFromNodeCentroids() {
+        int count = 0;
         for (int i = 0; i < centroids.size(); i++) {
             if (trueNodeIndices.contains(i)) {
                 Point p = centroids.get(i);
@@ -165,29 +198,40 @@ public class CityBuilder extends PolygonGraphAdapter {
                     if (p.getX() == vertices.get(j).getX() && p.getY() == vertices.get(j).getY()) {
                         MyVertex v = vertices.get(j);
                         newVertices.put(i, v);
+                        System.out.println(i + " associated vertex index: " + v.getIndex());
+                        count++;
                     }
                 }
             }
         }
+        System.out.println(count);
     }
 
     private void generateSegmentsFromVertices() {
-        for (int j = 0; j < centroids.size(); j++) {
-            if (trueNodeIndices.contains(j)) {
-                List<Integer> path = shortestPaths.get(j);
-                MyVertex v1 = newVertices.get(j);
-                System.out.println(newVertices.get(j).getIndex());
-                if (path.size() > 1){
-                    for (int i = 1; i < path.size(); i++) {
-                        MyVertex v2 = newVertices.get(path.get(i));
-                        MySegment seg = new MySegment(v1, v2);
-                        segments.add(seg);
-                        v1 = newVertices.get(path.get(i));
+        int indexV1 = 0;
+        int indexV2 = 0;
+        for (int i = 0; i < nodesRelevantToShortestPath.size(); i++) {
+            int index = nodesRelevantToShortestPath.get(i);
+            List<Integer> pathIndices = shortestPaths.get(index);
+            for (int j = 0; j<(pathIndices.size() - 1); j++) {
+                Point p1 = centroids.get(pathIndices.get(j));
+                Point p2 = centroids.get(pathIndices.get(j+1));
+
+                for (int k = 0; k<vertices.size(); k++){
+                    if (p1.getX() == vertices.get(k).getX() && p1.getY() == vertices.get(k).getY()){
+                        indexV1 = k;
+                    }
+                    if (p2.getX() == vertices.get(k).getX() && p2.getY() == vertices.get(k).getY()){
+                        indexV2 = k;
                     }
                 }
-
+                MySegment segment = new MySegment(vertices.get(indexV1), vertices.get(indexV2));
+                segments.add(segment);
             }
+
+
         }
+
     }
 }
 

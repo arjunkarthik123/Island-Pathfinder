@@ -19,7 +19,6 @@ public class MyVertex implements MyShape {
         totalIndex++;
         islandVertex = new LandVertex();
     }
-
     public void changeColor(String colorCode){
         Structs.Property color = Structs.Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
         vertex = Vertex.newBuilder(vertex).setProperties(0, color).build();
