@@ -1,5 +1,6 @@
 package ca.mcmaster.cas.se2aa4.a3.island.Builders;
 
+import ca.mcmaster.cas.se2aa4.a3.island.AdapterToPathFinder.PolygonGraphAdapter;
 import ca.mcmaster.cas.se2aa4.a3.island.Elevation.BaseElevation;
 import ca.mcmaster.cas.se2aa4.a3.island.FreshWater.AquiferGenerator;
 import ca.mcmaster.cas.se2aa4.a3.island.FreshWater.LakeGenerator;
@@ -53,6 +54,9 @@ public class IslandBuilder extends AbstractBuilder {
 
         // Aquifer generator
         new AquiferGenerator(findPolygonsWithinIsland(), numAquifers, rand);
+
+        //City generator
+        new PolygonGraphAdapter(findPolygonsWithinIsland(), rand);
 
     }
 

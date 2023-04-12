@@ -1,31 +1,32 @@
 package ca.mcmaster.cas.se2aa4.a3.island.AdapterToPathFinder;
 
 
-import ca.mcmaster.cas.se2aa4.a3.island.Builders.IslandBuilder;
 import ca.mcmaster.cas.se2aa4.a3.island.ShapeAdts.MyPolygon;
 import ca.mcmaster.cas.se2aa4.a3.island.ShapeAdts.MyVertex;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Edge;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Graph;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Node;
 import org.locationtech.jts.geom.Point;
+
 import java.util.ArrayList;
 import java.util.List;
-
-
-import java.awt.*;
-import java.util.Map;
-
-public class PolygonGraphAdapter {
-    private MyPolygon polygon;
-    private Graph graph;
-    private Map<MyVertex, Integer> nodeMapping;
+import java.util.Random;
+public class PolygonGraphAdapter implements AdapterProfile{
     private final List<MyPolygon> polygons;
-    private List<Point> centroids;
-    private List <Node> nodeList;
-    private List<Edge> edgeList;
 
-    public PolygonGraphAdapter (IslandBuilder i) {
-        polygons = i.findPolygonsWithinIsland();
+    private List<Point> centroids;
+
+    private Graph graph;
+    private final List <Node> nodeList = new ArrayList<>();
+    private final List<Edge> edgeList = new ArrayList<>();
+    Random rand;
+
+    //MAKE NODES AND EDGES RETURNED???
+
+    public PolygonGraphAdapter (List<MyPolygon> myPolygons, Random rand) {
+        this.polygons = myPolygons;
+        this.rand = rand;
+        executeAdapter();
     }
     private int calcDistance(Point p1, Point p2){
         double d1 = Math.pow((p1.getX() - p2.getX()), 2);
@@ -37,13 +38,14 @@ public class PolygonGraphAdapter {
             centroids.add(myPolygon.getCenterOfPolygon());
         }
     }
-    private void mapNodeCentroid(){
+    @Override
+    public void generateNodes(){
         for (int i = 0; i<centroids.size(); i++){
             nodeList.add(new Node(i));
         }
     }
-
-    private void generateEdges() {
+    @Override
+    public void generateEdges() {
         for (int i = 0; i<polygons.size(); i++){
             for (int j = 0; j<polygons.size(); j++){
                 if (j != i){
@@ -53,5 +55,15 @@ public class PolygonGraphAdapter {
                 }
             }
         }
+    }
+    @Override
+    public void generateGraph(){
+      graph = new Graph(nodeList, edgeList);
+    }
+    public void executeAdapter(){
+        getAllCentroids();
+        generateNodes();
+        generateEdges();
+        generateGraph();
     }
 }
