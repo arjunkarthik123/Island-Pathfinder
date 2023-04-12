@@ -1,6 +1,5 @@
 package ca.mcmaster.cas.se2aa4.a3.island.AdapterToPathFinder;
 
-
 import ca.mcmaster.cas.se2aa4.a3.island.ShapeAdts.MyPolygon;
 import ca.mcmaster.cas.se2aa4.a3.island.ShapeAdts.MyVertex;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Edge;
@@ -11,18 +10,16 @@ import org.locationtech.jts.geom.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-public abstract class PolygonGraphAdapter implements AdapterProfile{
+public abstract class PolygonGraphAdapter implements AdapterProfile {
+
     protected final List<MyPolygon> polygons;
-    private List<Point> centroids;
+    protected final List<Point> centroids = new ArrayList<>();
     protected Graph graph;
     protected final List <Node> nodeList = new ArrayList<>();
     protected final List<Edge> edgeList = new ArrayList<>();
     Random rand;
-
-    //MAKE NODES AND EDGES RETURNED???
-
-    public PolygonGraphAdapter (List<MyPolygon> myPolygons, Random rand) {
-        this.polygons = myPolygons;
+    public PolygonGraphAdapter (List<MyPolygon> polygons, Random rand) {
+        this.polygons = polygons;
         this.rand = rand;
     }
     private int calcDistance(Point p1, Point p2){
