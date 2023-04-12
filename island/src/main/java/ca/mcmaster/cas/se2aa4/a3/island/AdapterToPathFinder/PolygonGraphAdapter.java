@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a3.island.AdapterToPathFinder;
 
 import ca.mcmaster.cas.se2aa4.a3.island.ShapeAdts.MyPolygon;
+import ca.mcmaster.cas.se2aa4.a3.island.ShapeAdts.MySegment;
 import ca.mcmaster.cas.se2aa4.a3.island.ShapeAdts.MyVertex;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Edge;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Graph;
@@ -13,13 +14,17 @@ import java.util.Random;
 public abstract class PolygonGraphAdapter implements AdapterProfile {
 
     protected final List<MyPolygon> polygons;
+    protected final List<MySegment> segments;
+    protected final List<MyVertex> vertices;
     protected final List<Point> centroids = new ArrayList<>();
     protected Graph graph;
     protected final List <Node> nodeList = new ArrayList<>();
     protected final List<Edge> edgeList = new ArrayList<>();
     Random rand;
-    public PolygonGraphAdapter (List<MyPolygon> polygons, Random rand) {
+    public PolygonGraphAdapter (List<MyPolygon> polygons, Random rand, List<MyVertex> vertices, List<MySegment> segments) {
         this.polygons = polygons;
+        this.segments = segments;
+        this.vertices = vertices;
         this.rand = rand;
     }
     protected int calcDistance(Point p1, Point p2){
@@ -35,7 +40,7 @@ public abstract class PolygonGraphAdapter implements AdapterProfile {
     @Override
     public void generateNodes(){
         for (int i = 0; i<centroids.size(); i++){
-            nodeList.add(new Node(i));
+            nodeList.add(new Node(i, Integer.MAX_VALUE));
         }
     }
     public void executeAdapter(){

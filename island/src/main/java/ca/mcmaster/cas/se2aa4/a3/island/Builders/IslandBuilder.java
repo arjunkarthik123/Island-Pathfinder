@@ -55,9 +55,9 @@ public class IslandBuilder extends AbstractBuilder {
         // Aquifer generator
         new AquiferGenerator(findPolygonsWithinIsland(), numAquifers, rand);
 
-        //City generator
-        if (cities != 0){
-            new CityBuilder(findPolygonsWithinIsland(), rand, cities);
+        // City generator
+        if (cities != 0 && cities < findPolygonsWithinIsland().size()){
+            new CityBuilder(findPolygonsWithinIsland(), rand, cities, myVertices, mySegments);
         }
     }
     public void addMoistureToPolygons(SoilProfile soilProfile){
