@@ -11,14 +11,12 @@ import org.locationtech.jts.geom.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-public class PolygonGraphAdapter implements AdapterProfile{
-    private final List<MyPolygon> polygons;
-
+public abstract class PolygonGraphAdapter implements AdapterProfile{
+    protected final List<MyPolygon> polygons;
     private List<Point> centroids;
-
-    private Graph graph;
-    private final List <Node> nodeList = new ArrayList<>();
-    private final List<Edge> edgeList = new ArrayList<>();
+    protected Graph graph;
+    protected final List <Node> nodeList = new ArrayList<>();
+    protected final List<Edge> edgeList = new ArrayList<>();
     Random rand;
 
     //MAKE NODES AND EDGES RETURNED???
@@ -26,7 +24,6 @@ public class PolygonGraphAdapter implements AdapterProfile{
     public PolygonGraphAdapter (List<MyPolygon> myPolygons, Random rand) {
         this.polygons = myPolygons;
         this.rand = rand;
-        executeAdapter();
     }
     private int calcDistance(Point p1, Point p2){
         double d1 = Math.pow((p1.getX() - p2.getX()), 2);
