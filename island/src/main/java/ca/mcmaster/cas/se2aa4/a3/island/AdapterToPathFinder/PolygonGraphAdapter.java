@@ -22,7 +22,7 @@ public abstract class PolygonGraphAdapter implements AdapterProfile {
         this.polygons = polygons;
         this.rand = rand;
     }
-    private int calcDistance(Point p1, Point p2){
+    protected int calcDistance(Point p1, Point p2){
         double d1 = Math.pow((p1.getX() - p2.getX()), 2);
         double d2 = Math.pow(p1.getY() - p2.getY(), 2);
         return (int) Math.pow((d1 + d2), 0.5);
@@ -38,26 +38,8 @@ public abstract class PolygonGraphAdapter implements AdapterProfile {
             nodeList.add(new Node(i));
         }
     }
-    @Override
-    public void generateEdges() {
-        for (int i = 0; i<polygons.size(); i++){
-            for (int j = 0; j<polygons.size(); j++){
-                if (j != i){
-                    if (polygons.get(i).isNeighbour(polygons.get(j))){
-                        edgeList.add(new Edge(i, j, calcDistance(centroids.get(i), centroids.get(j))));
-                    }
-                }
-            }
-        }
-    }
-    @Override
-    public void generateGraph(){
-      graph = new Graph(nodeList, edgeList);
-    }
     public void executeAdapter(){
         getAllCentroids();
         generateNodes();
-        generateEdges();
-        generateGraph();
     }
 }

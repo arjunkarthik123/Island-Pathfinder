@@ -11,7 +11,6 @@ public class CalculateShortestPath implements FindPath {
     private final PriorityQueue<Node> priorityQueue;
     private final Map<Integer, List<Integer>> shortestPaths;
     private final int numNodes;
-
     private final Graph graph;
     public CalculateShortestPath(Graph graph) {
         this.graph = graph;
