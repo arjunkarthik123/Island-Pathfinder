@@ -5,17 +5,16 @@ import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Graph;
 import ca.mcmaster.cas.se2aa4.a4.pathfinder.GraphADT.Node;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 class CalculateShortestPathTest {
-
     static private int [] distances;
-    static Map<Integer, List<Integer>> shortestPaths = new HashMap<>();
+    static private int [] distanceSingle;
+    static private Map<Integer, List<Integer>> shortestPaths = new HashMap<>();
+    static private Map <Integer, List<Integer>> shortestPathSingle = new HashMap<>();
     @BeforeAll
     static void setUpValues() {
+        //Creating a few nodes and edges to test the shortest path algorithm
         int source = 0;
 
         Node n0 = new Node(0,0);
@@ -50,6 +49,22 @@ class CalculateShortestPathTest {
         CalculateShortestPath c = new CalculateShortestPath(graph);
         shortestPaths = c.calculatePath(source);
         distances = c.getDistance();
+
+        //Checking case if there is only one node and edge
+        int sourceAlone = 0;
+        Node nSingle = new Node(0, 0);
+        List <Node> nodeAlone = new ArrayList<>();
+        nodeAlone.add(nSingle);
+
+        Edge singleEdge = new Edge(0, 0, 0);
+        List <Edge> edgeAlone = new ArrayList<>();
+        edgeAlone.add(singleEdge);
+
+        Graph newGraph = new Graph(nodeAlone, edgeAlone);
+
+        CalculateShortestPath cAlone = new CalculateShortestPath(newGraph);
+        shortestPathSingle = cAlone.calculatePath(sourceAlone);
+        distanceSingle = cAlone.getDistance();
     }
     @Test
     void testShortestPaths() {
@@ -60,10 +75,21 @@ class CalculateShortestPathTest {
         assertNotNull(distances);
     }
     @Test
-    void checkIfDistancesAreCorrect(){
-        assertEquals(5, distances[1]);
+    void checkIfDistancesAreCorrectOne() { assertEquals(5, distances[1]); }
+    @Test
+    void checkIfDistancesAreCorrectTwo(){
         assertEquals(1, distances[4]);
     }
-
+    @Test
+    void checkIfSingleNodeListIsEmpty(){
+        assertNotNull(shortestPathSingle);
+    }
+    @Test
+    void checkIfSingleNodeListHasOneElement(){
+        assertEquals(1, shortestPathSingle.size());
+    }
+    @Test
+    void checkIfDistanceIsZero(){
+        assertEquals(0, distanceSingle[0]);
+    }
 }
-
