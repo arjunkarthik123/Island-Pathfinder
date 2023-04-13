@@ -16,12 +16,4 @@ public class Graph {
     public List<Node> getNodeList() {
         return nodeList;
     }
-
-    public void setEdgeList(List<Edge> edgeList) {
-        this.edgeList = edgeList;
-    }
-
-    public void setNodeList(List<Node> nodeList) {
-        this.nodeList = nodeList;
-    }
 }
