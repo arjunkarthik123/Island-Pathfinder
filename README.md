@@ -1,4 +1,4 @@
-# Assignment A4: Pathfinding
+# Assignment A4: Evolution
 
 Arjun Karthik [kartha4@mcmaster.ca]
 
